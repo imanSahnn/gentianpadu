@@ -1,0 +1,80 @@
+@extends('admin.layout')
+
+@section('title', 'Add Tutor')
+
+@section('content')
+    <div class="max-w-2xl mx-auto p-8 bg-white shadow-md rounded-lg">
+        <h1 class="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Add Tutor</h1>
+
+        @if (session('success'))
+            <div class="alert alert-success p-4 mb-6 bg-green-100 text-green-800 rounded-lg">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <form action="{{ route('admin.storetutor') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            @csrf
+            <div>
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
+                <input type="text" name="name" id="name" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your name" required="">
+                @error('name')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                <input type="email" name="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
+                @error('email')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                <input type="password" name="password" id="password" placeholder="••••••••" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                @error('password')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="••••••••" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                @error('password_confirmation')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="ic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your IC</label>
+                <input type="text" name="ic" id="ic" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="020700012033" required="">
+                @error('ic')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your phone number</label>
+                <input type="text" name="number" id="number" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="01139144048" required="">
+                @error('number')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="picture" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile Picture</label>
+                <input type="file" name="picture" id="picture" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                @error('picture')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="course_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course</label>
+                <select name="course_id" id="course_id" class="...">
+                    @foreach($courses as $course)
+                        <option value="{{ $course->id }}">{{ $course->name }}</option>
+                    @endforeach
+                </select>
+                @error('course_id')
+                    <span class="text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+            <button type="submit" class="w-full py-3 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Confirm</button>
+        </form>
+    </div>
+@endsection

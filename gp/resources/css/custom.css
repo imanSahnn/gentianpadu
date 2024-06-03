@@ -1,0 +1,28 @@
+.sidebar {
+    background-color: red; /* Change to your desired color */
+    color: white;
+}
+
+.sidebar a {
+    color: rgb(247, 67, 67);
+}
+
+.sidebar a:hover {
+    color: #adb5bd; /* Change this to your desired hover color */
+}
+
+.sidebar .nav-link.active {
+    background-color: #29ea2f; /* Change this to your desired active link color */
+}
+
+.sidebar .text-muted {
+    color: #6c757d !important;
+}
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+    .content {
+        margin-left: 0;
+    }
+}
