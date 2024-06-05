@@ -108,5 +108,27 @@ class StudentController extends Controller
             ]);
         }
     }
+
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'ic_number' => 'required',
+            'new_password' => 'required|min:8',
+        ]);
+
+        $user = User::where('email', $request->email)
+                    ->where('ic_number', $request->ic_number)
+                    ->first();
+
+        if ($user) {
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return redirect()->route('login')->with('success', 'Password has been reset successfully.');
+        }
+
+        return back()->withErrors(['error' => 'Invalid email or IC number.']);
+    }
 }
 

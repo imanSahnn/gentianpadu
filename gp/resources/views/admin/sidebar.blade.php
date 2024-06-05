@@ -8,12 +8,18 @@
     <style>
         body {
             display: flex;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            margin: 0;
         }
         .sidebar {
             width: 280px;
-            height: 100vh;
-            background-color: #d97d1b;
+            background-color: #632626;
             color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
         }
         .content {
             flex-grow: 1;
@@ -21,30 +27,67 @@
         }
         .sidebar hr {
             border-top-color: rgba(255, 255, 255, 0.1);
+            width: 80%;
         }
         .sidebar a {
             color: white;
+            text-decoration: none;
         }
         .sidebar a:hover {
-            color: #adb5bd;
+            color: #ff5252;
         }
         .sidebar .nav-link.active {
-            background-color: #495057;
+            background-color: #ff5252;
+            border-radius: 5px;
         }
-
+        .sidebar .brand-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .sidebar .brand-logo img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .sidebar .user-info {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .sidebar .user-info h4 {
+            margin: 0.5rem 0 0.2rem;
+        }
+        .sidebar .user-info p {
+            margin: 0;
+            color: #e1e1e1;
+        }
+        .sidebar .nav-item {
+            width: 100%;
+            text-align: center;
+        }
+        .sidebar .nav-item a {
+            padding: 0.75rem 1.25rem;
+            display: block;
+            width: 100%;
+        }
+        .sidebar .btn-logout {
+            margin-top: auto;
+            margin-bottom: 1rem;
+            width: 80%;
+        }
     </style>
 </head>
 <body>
-    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-light text-decoration-none">
-            <i class="bi bi-bootstrap-fill"></i>
+    <div class="sidebar">
+        <div class="brand-logo d-flex align-items-center mb-3 mb-md-0 me-md-auto link-light text-decoration-none">
+            <img src="{{ asset('gp/resources/views/admin/sakapp1.png') }}" class="rounded-circle" width="50" height="50">
             <span class="fs-4 ms-2">Brand</span>
-        </a>
+        </div>
         <hr>
-        <div class="d-flex flex-column align-items-center mb-3">
-            <img src="https://via.placeholder.com/150" alt="avatar" class="rounded-circle" width="100" height="100">
-            <h4 class="mt-2">John Doe</h4>
-            <p class="text-muted">john.doe@example.com</p>
+        <div class="user-info">
+            <img src="{{ Storage::url('public/adminpage/adminpp.jpg') }}" class="rounded-circle" width="100" height="100">
+            <h4 class="mt-2">Admin Satu</h4>
+            <p class="text-muted">Adminsatu1@gentianpadu.com</p>
         </div>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -73,9 +116,9 @@
                 </a>
             </li>
         </ul>
-        <hr>
-        <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+        <a href="{{ route('logout') }}" class="btn btn-danger btn-logout">Logout</a>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

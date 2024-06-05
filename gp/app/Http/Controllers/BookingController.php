@@ -149,16 +149,17 @@ class BookingController extends Controller
         return view('tutor.tutorbooking', compact('bookings', 'profilePicture'));
     }
 
-    public function showstudent($id)
-    {
-        $user = Auth::guard('tutor')->user();
-        $profilePicture = Tutor::where('id', $user->id)->value('picture');
-        $student = Student::findOrFail($id);
-        $bookedDates = Booking::where('student_id', $id)->get(['date', 'time', 'attendance_status']);
 
+        public function showstudent($id)
+        {
+            $user = Auth::guard('tutor')->user();
+            $profilePicture = Tutor::where('id', $user->id)->value('picture');
+            $student = Student::findOrFail($id);
+            $bookedDates = Booking::where('student_id', $id)->get(['date', 'time', 'attendance_status']);
 
-        return view('tutor.studentdetail', compact('student', 'profilePicture','bookedDates'));
-    }
+            return view('tutor.studentdetail', compact('student', 'profilePicture', 'bookedDates'));
+        }
+
 
     public function updateBooking($id)
     {

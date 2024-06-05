@@ -6,14 +6,23 @@
     <title>@yield('title', 'Homepage')</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <style>
         body {
             display: flex;
+            background-color: #151709;
+            background-image: url('{{ asset('storage/adminpage/background1.jpg') }}'); /* Correct path to your background image */
+            background-size: cover; /* Cover the entire content area */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
         }
         .content {
             flex-grow: 1;
             padding: 20px;
+            background-color: rgba(67, 120, 225, 0.8); /* Semi-transparent blue to overlay */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            border-radius: 8px;
+            color: rgb(0, 0, 0); /* Ensure text is readable */
         }
     </style>
 </head>

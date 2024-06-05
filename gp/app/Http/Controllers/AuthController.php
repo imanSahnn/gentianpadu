@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\User;
 use App\Models\Student;
+use App\Models\Skill;
 use App\Models\Tutor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -193,19 +194,28 @@ class AuthController extends Controller
             'name' => 'required|string|max:255|unique:course',
             'price' => 'required|string|max:15',
             'detail' => 'required|string|max:1000',
+            'skills' => 'array',
+            'skills.*' => 'string|max:255'
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        Course::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'detail' => $request->detail,
-        ]);
+        $course = Course::create($request->only(['name', 'price', 'detail']));
 
-        return redirect()->route('course')->with('success', 'Student registered successfully');
+        // Handle skills
+        $skillIds = [];
+        if ($request->has('skills')) {
+            foreach ($request->skills as $skillName) {
+                $skill = Skill::firstOrCreate(['skill_name' => $skillName]);
+                $skillIds[] = $skill->id;
+            }
+            $course->skills()->sync($skillIds);
+        }
+
+        return redirect()->route('admin.createcourse')->with('success', 'Course registered successfully.');
     }
+
 
 }

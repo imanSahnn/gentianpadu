@@ -10,11 +10,6 @@ class Course extends Authenticatable
 {
     use HasFactory, Notifiable;
     protected $table = 'course';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = ['name', 'price', 'detail'];
 
     public function tutors()
@@ -31,22 +26,9 @@ class Course extends Authenticatable
     {
         return $this->hasMany(Booking::class);
     }
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class,'course_skill');
+    }
 }

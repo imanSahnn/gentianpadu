@@ -43,7 +43,7 @@
                                 <td>
                                     <a href="{{ route('admin.viewcourse', [$course->id]) }}" class="btn btn-sm btn-primary">View</a>
                                     <a href="{{ route('admin.editcourse', [$course->id]) }}" class="btn btn-sm btn-info">Edit</a>
-                                    <form action="{{ route('admin.destroy', $course->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to delete this course?');">
+                                    <form action="{{ route('admin.destroycourse', $course->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to delete this course?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>

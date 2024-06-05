@@ -38,6 +38,10 @@ Route::get('/tlogin', [TutorController::class, 'tlogin'])->name('tlogin'); // Tu
 Route::post('/tlogin', [TutorController::class, 'tloginPost'])->name('tlogin.save'); // Tutor login form submission
 Route::get('/tutor/homepage', [TutorController::class, 'home'])->name('tutorhomepage'); // Tutor homepage
 
+// Route to show the list of students for a specific tutor
+Route::get('/tutor/students', [TutorController::class, 'listStudents'])->name('tutor.students');
+// Route to show the details of a specific student
+Route::get('/student/{id}', [BookingController::class, 'showstudent'])->name('studentdetail');
 
 
 Route::get('/admin/createtutor', [TutorController::class, 'create'])->name('admin.createtutor');
@@ -55,7 +59,7 @@ Route::post('/book_class', [BookingController::class, 'bookClass'])->name('book_
 Route::get('/tutor/bookings', [BookingController::class, 'showTutorBookings'])->name('tutor.bookings');
 Route::post('/tutor/bookings/{booking}/status', [BookingController::class, 'changeBookingStatus'])->name('tutor.changeStatus');
 Route::post('/record-absence', [BookingController::class, 'recordAbsence'])->name('record.absence');
-Route::get('/student/{id}', [BookingController::class, 'showstudent'])->name('studentdetail');
+
 Route::post('/update-booking/{id}', [BookingController::class, 'updateBooking'])->name('updateBooking');
 
 
@@ -78,16 +82,21 @@ Route::delete('/admin/destroy/{student}', [StudentController::class, 'destroy'])
 
 Route::get('student/booking', [BookingController::class, 'create'])->name('student.booking.create');
 Route::post('student/booking', [BookingController::class, 'store'])->name('student.booking.store');
-
+Route::post('custom-password-reset', [StudentController::class, 'reset'])->name('custom.password.reset');
 
 Route::middleware(['auth:student'])->group(function () {
     Route::post('/edit-booking/{id}', [BookingController::class, 'editBooking'])->name('edit_booking');
     Route::delete('/delete-booking/{id}', [BookingController::class, 'deleteBooking'])->name('delete_booking');
 });
+
 //course
 Route::get('/admin/createcourse', [CourseController::class, 'create'])->name('admin.createcourse');
 Route::post('/admin/storecourse', [AuthController::class, 'cstore'])->name('admin.storecourse');
+
+// Edit and update course routes
 Route::get('/admin/editcourse/{course}', [CourseController::class, 'edit'])->name('admin.editcourse');
 Route::post('/admin/courseupdate/{course}', [CourseController::class, 'cupdate'])->name('admin.cupdate');
-Route::get('/admin/viewcourse/{Course}', [CourseController::class, 'show'])->name('admin.viewcourse');
-Route::delete('/admin/destroy/{Course}', [CourseController::class, 'destroy'])->name('admin.destroy');
+
+// View and delete course routes
+Route::get('/admin/viewcourse/{course}', [CourseController::class, 'show'])->name('admin.viewcourse');
+Route::delete('/admin/destroy/{course}', [CourseController::class, 'destroy'])->name('admin.destroycourse');

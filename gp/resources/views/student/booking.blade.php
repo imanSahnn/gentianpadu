@@ -234,12 +234,12 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(function() {
-        // Get current date and time
-        var now = new Date();
+        // Get current date and time in Malaysia timezone (UTC+8)
+        var now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kuala_Lumpur" }));
         var currentHour = now.getHours();
 
         // Get tomorrow's date
-        var tomorrow = new Date();
+        var tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1);
 
         // Set the minimum selectable date to tomorrow if current time is before 4:00 PM Malaysia time
@@ -265,8 +265,6 @@
     function confirmDelete(id) {
         if (confirm("Are you sure you want to delete this booking?")) {
             deleteBooking(id);
-            // Reload the page after deletion
-            location.reload();
         }
     }
 

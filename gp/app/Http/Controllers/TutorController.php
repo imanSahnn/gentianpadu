@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Tutor;
 use App\Models\Course;
 use App\Models\Booking;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -114,21 +115,39 @@ class TutorController extends Controller
     }
     public function home()
     {
+        $timezone = 'Asia/Kuala_Lumpur';
         $tutor = Auth::guard('tutor')->user();
-        $profilePicture = Tutor::where('id', $tutor->id)->value('picture'); // Fetch profile picture using Tutor model
+        $profilePicture = Tutor::where('id', $tutor->id)->value('picture');
+        // Get the current date and time in Malaysia timezone
+        $now = Carbon::now($timezone);
 
-        $today = Carbon::now()->format('Y-m-d');
-        $tomorrow = Carbon::now()->addDay()->format('Y-m-d');
+        // Get the start and end of today in Malaysia timezone
+        $startOfToday = $now->copy()->startOfDay();
+        $endOfToday = $now->copy()->endOfDay();
 
-        $todaysBookings = Booking::where('tutor_id', $tutor->id)
-                                  ->whereDate('date', $today)
-                                  ->get();
+        // Get the start and end of tomorrow in Malaysia timezone
+        $startOfTomorrow = $now->copy()->addDay()->startOfDay();
+        $endOfTomorrow = $now->copy()->addDay()->endOfDay();
 
-        $tomorrowsBookings = Booking::where('tutor_id', $tutor->id)
-                                    ->whereDate('date', $tomorrow)
+        // Fetch today's bookings
+        $todaysBookings = Booking::whereBetween('date', [$startOfToday, $endOfToday])
+                                ->where('status', 'approve')
+                                ->get();
+
+        // Fetch tomorrow's bookings
+        $tomorrowsBookings = Booking::whereBetween('date', [$startOfTomorrow, $endOfTomorrow])
+                                    ->where('status', 'approve')
                                     ->get();
 
-        return view('tutor.tutorhomepage', compact('profilePicture', 'todaysBookings', 'tomorrowsBookings'));
+        return view('tutor.tutorhomepage', compact('todaysBookings', 'tomorrowsBookings','profilePicture'));
+    }
+
+    public function listStudents()
+    {
+        $user = Auth::guard('tutor')->user();
+        $students = Student::where('selected_tutor_id', $user->id)->get(['id', 'name', 'ic', 'number', 'email']);
+        $profilePicture = Tutor::where('id', $user->id)->value('picture');
+        return view('tutor.tutorstudent', compact('students','profilePicture'));
     }
 
 
