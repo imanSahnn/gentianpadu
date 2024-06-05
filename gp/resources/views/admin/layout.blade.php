@@ -1,3 +1,5 @@
+<!-- resources/views/layouts/app.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,12 +19,13 @@
         }
         .content {
             flex-grow: 1;
+            margin-left: 280px; /* Adjust for sidebar width */
             padding: 20px;
             background-color: rgba(67, 120, 225, 0.8); /* Semi-transparent blue to overlay */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 20px;
             border-radius: 8px;
-            color: rgb(0, 0, 0); /* Ensure text is readable */
+            color: #000; /* Ensure text is readable */
         }
     </style>
 </head>

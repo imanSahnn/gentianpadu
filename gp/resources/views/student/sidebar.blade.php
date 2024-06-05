@@ -135,11 +135,27 @@
                 padding: 5px 0; /* Reduce padding for smaller screens */
             }
         }
+
+        /* Additional styles for the dropdown content */
+        .dropdown-content {
+            display: none;
+            background-color: #444;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .dropdown-content a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="top-bar">
-        <span class="menu-button" onclick="toggleSidebar()">&#9776;</span>
+        <span class="menu-button" onclick="toggleSidebar()"></span>
         <span>Logo</span>
     </div>
 
@@ -153,9 +169,12 @@
         </h1>
         <ul>
             <li><a href="{{ route('shomepage') }}">Home</a></li>
-            <li><a href="{{ route('booking') }}">Booking</a></li>
+            <li>
+                <a href="{{ route('bookings') }}">Booking </a>
+            </li>
             <li><a href="#">Profile</a></li>
-            <li><a href="#">Tutor</a></li>
+            <li><a href="{{ route('tutor_list') }}">Learning Progress</a></li>
+            <li><a href="{{ route('course_list') }}">Course</a></li>
         </ul>
     </div>
 
@@ -181,6 +200,11 @@
                 sidebar.classList.remove('show');
                 content.classList.remove('full-width');
             }
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('bookingDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
 
         window.addEventListener('resize', checkScreenSize);

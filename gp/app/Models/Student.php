@@ -10,44 +10,32 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Authenticatable
 {
     use HasFactory, Notifiable;
+
     protected $table = 'students';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'ic',
-        'number',
-        'picture',
-        'course_id'
+        'name', 'email', 'password', 'ic', 'number', 'picture'
     ];
-    public function course()
+
+    public function courses()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsToMany(Course::class, 'course_student');
     }
+
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

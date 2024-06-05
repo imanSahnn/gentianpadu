@@ -27,6 +27,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Picture</th>
                             <th>Name</th>
                             <th>Price</th>
                             <th>Detail</th>
@@ -37,6 +38,7 @@
                         @foreach ($courses as $course)
                             <tr>
                                 <td>{{ $course->id }}</td>
+                                <td>{{ $course->picture }}</td>
                                 <td>{{ $course->name }}</td>
                                 <td>{{ $course->price }}</td>
                                 <td>{{ $course->detail }}</td>

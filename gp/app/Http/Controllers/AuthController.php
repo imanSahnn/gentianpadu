@@ -88,7 +88,6 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'ic' => 'required|string|max:255|unique:students',
             'number' => 'required|string|max:15',
-            'course_id' => 'required|exists:course,id',
         ]);
 
         if ($validator->fails()) {
@@ -101,7 +100,6 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'ic' => $request->ic,
             'number' => $request->number,
-            'course_id' => $request->course_id,
             'picture' => $picturePath,
         ]);
 
@@ -130,7 +128,6 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'ic' => 'required|string|max:255|unique:students',
             'number' => 'required|string|max:15',
-            'course_id' => 'required|exists:course,id', // Validation for course_id
         ]);
 
         if ($validator->fails()) {
@@ -144,7 +141,6 @@ class AuthController extends Controller
             'ic' => $request->ic,
             'number' => $request->number,
             'picture' => $picturePath,
-            'course_id' => $request->course_id, // Assign the selected course_id
         ]);
 
         return redirect()->route('student')->with('success', 'Student registered successfully');
@@ -188,12 +184,14 @@ class AuthController extends Controller
     }
 
     //course
-    public function cstore(Request $request)
+    public function cstore(Request $request, Course $course)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:course',
-            'price' => 'required|string|max:15',
+            'price' => 'required|numeric',
+            'minimum_hour' => 'required|numeric',
             'detail' => 'required|string|max:1000',
+            'picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'skills' => 'array',
             'skills.*' => 'string|max:255'
         ]);
@@ -202,7 +200,19 @@ class AuthController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $course = Course::create($request->only(['name', 'price', 'detail']));
+        if ($request->hasFile('picture')) {
+            $imagePath = $request->file('picture')->store('course_picture', 'public');
+            $course->picture = $imagePath;
+        }
+
+        $course = Course::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'minimum_hour' => $request->minimum_hour,
+            'detail' => $request->detail,
+            'picture' => $imagePath
+        ]);
+        //$student->picture = $imagePath }$student->save();
 
         // Handle skills
         $skillIds = [];
@@ -213,7 +223,7 @@ class AuthController extends Controller
             }
             $course->skills()->sync($skillIds);
         }
-
+$course->save();
         return redirect()->route('admin.createcourse')->with('success', 'Course registered successfully.');
     }
 

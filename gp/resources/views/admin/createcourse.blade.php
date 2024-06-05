@@ -22,10 +22,25 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="bg-white p-8 rounded-lg shadow-lg mb-8">
             <h2 class="text-2xl font-bold mb-4 text-black">Add New Course and Skills</h2>
-            <form id="addCourseForm" method="POST" action="{{ route('admin.storecourse') }}" class="space-y-6">
+            <form id="addCourseForm" method="POST" action="{{ route('admin.storecourse') }}" class="space-y-6" enctype="multipart/form-data">
                 @csrf
+                <div>
+                    <label for="picture" class="block text-gray-700 mb-2">Course Image</label>
+                    <input type="file" id="picture" name="picture" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
                 <div>
                     <label for="courseName" class="block text-gray-700 mb-2">Course Name</label>
                     <input type="text" id="courseName" name="name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -33,6 +48,10 @@
                 <div>
                     <label for="price" class="block text-gray-700 mb-2">Price</label>
                     <input type="text" id="price" name="price" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="minimum_hour" class="block text-gray-700 mb-2">Minimum Hours</label>
+                    <input type="text" id="minimum_hour" name="minimum_hour" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
                     <label for="details" class="block text-gray-700 mb-2">Details</label>

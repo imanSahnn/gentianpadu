@@ -116,6 +116,13 @@
                 </a>
             </li>
         </ul>
+        <li>
+            <a href="{{ route('payment') }}" class="nav-link {{ request()->is('payment') ? 'active' : '' }}">
+                <i class="bi bi-book-fill"></i>
+                Payment
+            </a>
+        </li>
+    </ul>
         <a href="{{ route('logout') }}" class="btn btn-danger btn-logout">Logout</a>
     </div>
 

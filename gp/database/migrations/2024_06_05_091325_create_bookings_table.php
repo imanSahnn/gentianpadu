@@ -10,10 +10,11 @@ class CreateBookingsTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students');
-            $table->foreignId('tutor_id')->constrained('tutors');
+            $table->foreignId('student_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tutor_id')->constrained()->onDelete('cascade');
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->date('date');
-            $table->string('time');
+            $table->time('time');
             $table->timestamps();
         });
     }
@@ -22,4 +23,4 @@ class CreateBookingsTable extends Migration
     {
         Schema::dropIfExists('bookings');
     }
-}
+};

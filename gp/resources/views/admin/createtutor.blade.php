@@ -30,15 +30,11 @@
             </div>
             <div>
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                <input type="password" name="password" id="password" placeholder="••••••••" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <div class="relative">
+                    <input type="password" name="password" id="password" placeholder="••••••••" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" readonly>
+                    <button type="button" onclick="generatePassword()" class="absolute inset-y-0 right-0 px-4 py-3 text-sm font-medium text-white bg-primary-600 rounded-r-lg hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Generate</button>
+                </div>
                 @error('password')
-                    <span class="text-red-600 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-            <div>
-                <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="••••••••" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-                @error('password_confirmation')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
@@ -65,7 +61,7 @@
             </div>
             <div>
                 <label for="course_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course</label>
-                <select name="course_id" id="course_id" class="...">
+                <select name="course_id" id="course_id" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @foreach($courses as $course)
                         <option value="{{ $course->id }}">{{ $course->name }}</option>
                     @endforeach
@@ -77,4 +73,16 @@
             <button type="submit" class="w-full py-3 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Confirm</button>
         </form>
     </div>
+
+    <script>
+        function generatePassword() {
+            var length = 12,
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()",
+                password = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                password += charset.charAt(Math.floor(Math.random() * n));
+            }
+            document.getElementById("password").value = password;
+        }
+    </script>
 @endsection

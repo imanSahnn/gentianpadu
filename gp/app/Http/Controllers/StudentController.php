@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Tutor;
@@ -129,6 +130,50 @@ class StudentController extends Controller
         }
 
         return back()->withErrors(['error' => 'Invalid email or IC number.']);
+    }
+    public function showTutorList()
+    {
+        $user = Auth::guard('student')->user();
+        $selectedTutor = Tutor::find($user->selected_tutor_id);
+        $profilePicture = Student::where('id', $user->id)->value('picture');
+        if ($selectedTutor) {
+            $tutors = collect([$selectedTutor]);
+        } else {
+            $tutors = Tutor::where('status', 'active')
+                           ->whereHas('course', function($query) use ($user) {
+                               $query->where('id', $user->course_id);
+                           })
+                           ->get();
+        }
+
+        return view('student.tutorlist', compact('tutors', 'selectedTutor','profilePicture'));
+    }
+    public function courselist()
+    {
+        $user = Auth::guard('student')->user();
+        $profilePicture = Student::where('id', $user->id)->value('picture');
+        $courses = Course::all();
+        return view('student.course_list', compact('courses','profilePicture'));
+    }
+
+    public function chooseCourse(Request $request)
+    {
+        $request->validate([
+            'course_id' => 'required|exists:course,id',
+        ]);
+
+        $student = Auth::guard('student')->user();
+
+        if (!$student) {
+            return back()->withErrors(['message' => 'User not authenticated']);
+        }
+
+        try {
+            $student->courses()->attach($request->course_id);
+            return back()->with('success', 'Course successfully added!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'Failed to add course: ' . $e->getMessage()]);
+        }
     }
 }
 

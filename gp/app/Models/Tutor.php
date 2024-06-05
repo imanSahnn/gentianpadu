@@ -27,6 +27,10 @@ class Tutor extends Authenticatable
     {
         return $this->hasMany(Booking::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

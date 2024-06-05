@@ -10,7 +10,7 @@ class Course extends Authenticatable
 {
     use HasFactory, Notifiable;
     protected $table = 'course';
-    protected $fillable = ['name', 'price', 'detail'];
+    protected $fillable = ['name', 'price', 'detail', 'minimum_hour', 'picture'];
 
     public function tutors()
     {
@@ -19,7 +19,7 @@ class Course extends Authenticatable
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->belongsToMany(Student::class, 'course_student');
     }
 
     public function bookings()

@@ -145,7 +145,7 @@ class TutorController extends Controller
     public function listStudents()
     {
         $user = Auth::guard('tutor')->user();
-        $students = Student::where('selected_tutor_id', $user->id)->get(['id', 'name', 'ic', 'number', 'email']);
+        $students = Student::where('selected_tutor_id', $user->id)->get(['picture','id', 'name', 'ic', 'number', 'email']);
         $profilePicture = Tutor::where('id', $user->id)->value('picture');
         return view('tutor.tutorstudent', compact('students','profilePicture'));
     }

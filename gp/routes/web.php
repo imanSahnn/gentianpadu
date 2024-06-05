@@ -31,7 +31,7 @@ Route::get('/tutor', [HomeController::class, 'tutor'])->name('tutor');
 Route::get('/course', [HomeController::class, 'course'])->name('course');
 Route::get('/students', [HomeController::class, 'student'])->name('students'); //show student
 
-
+Route::get('/payment', [HomeController::class, 'payment'])->name('payment');
 
 //tutor
 Route::get('/tlogin', [TutorController::class, 'tlogin'])->name('tlogin'); // Tutor login form
@@ -53,16 +53,12 @@ Route::delete('/admin/destroy/{tutor}', [TutorController::class, 'destroy'])->na
 Route::patch('tutors/{id}/update-status', [TutorController::class, 'updateStatus'])->name('tutors.updateStatus');
 Route::get('admin/tutors', [TutorController::class, 'index'])->name('tutors.index');
 
-Route::get('/booking', [BookingController::class, 'showTutorSelectionPage'])->name('booking');
-Route::post('/choose_tutor', [BookingController::class, 'chooseTutor'])->name('choose_tutor');
-Route::post('/book_class', [BookingController::class, 'bookClass'])->name('book_class');
-Route::get('/tutor/bookings', [BookingController::class, 'showTutorBookings'])->name('tutor.bookings');
-Route::post('/tutor/bookings/{booking}/status', [BookingController::class, 'changeBookingStatus'])->name('tutor.changeStatus');
-Route::post('/record-absence', [BookingController::class, 'recordAbsence'])->name('record.absence');
-
-Route::post('/update-booking/{id}', [BookingController::class, 'updateBooking'])->name('updateBooking');
-
-
+Route::group(['middleware' => ['auth:tutor']], function () {
+    Route::get('/tutor/bookings', [BookingController::class, 'showTutorBookings'])->name('tutor_bookings');
+    Route::get('/tutor/student/{id}', [BookingController::class, 'showStudent'])->name('tutor_student');
+    Route::post('/tutor/update-booking/{id}', [BookingController::class, 'updateBooking'])->name('update_booking');
+    Route::post('/tutor/change-booking-status/{id}', [BookingController::class, 'changeBookingStatus'])->name('change_booking_status');
+});
 
 
 //student
@@ -84,10 +80,26 @@ Route::get('student/booking', [BookingController::class, 'create'])->name('stude
 Route::post('student/booking', [BookingController::class, 'store'])->name('student.booking.store');
 Route::post('custom-password-reset', [StudentController::class, 'reset'])->name('custom.password.reset');
 
+Route::get('/tutor-list', [StudentController::class, 'showTutorList'])->name('tutor_list');
+Route::post('/submit-review', [StudentController::class, 'submitReview'])->name('submit_review');
+
+
 Route::middleware(['auth:student'])->group(function () {
+    Route::get('/courses', [StudentController::class, 'courselist'])->name('course_list');
+    Route::post('/choose-course', [StudentController::class, 'chooseCourse'])->name('choose_course');
+});
+
+Route::group(['middleware' => ['auth:student']], function () {
+    Route::get('/book-tutor', [BookingController::class, 'showBookingForm'])->name('bookings');
+    Route::post('/fetch-available-tutors', [BookingController::class, 'fetchAvailableTutors'])->name('fetch_available_tutors');
+    Route::post('/create-booking', [BookingController::class, 'bookClass'])->name('create_booking');
+    Route::post('/choose-tutor', [BookingController::class, 'chooseTutor'])->name('choose_tutor');
     Route::post('/edit-booking/{id}', [BookingController::class, 'editBooking'])->name('edit_booking');
     Route::delete('/delete-booking/{id}', [BookingController::class, 'deleteBooking'])->name('delete_booking');
 });
+
+
+
 
 //course
 Route::get('/admin/createcourse', [CourseController::class, 'create'])->name('admin.createcourse');

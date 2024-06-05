@@ -36,4 +36,10 @@ class HomeController extends Controller
         $courses = Course::all();
         return view('admin.course', compact('courses'));
     }
+
+    public function payment()
+    {
+        return view('admin.payment');
+
+    }
 }

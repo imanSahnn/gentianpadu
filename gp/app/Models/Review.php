@@ -5,17 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Booking extends Model
+class Review extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'student_id',
-        'tutor_id',
-        'date',
-        'time',
-        'status'
-    ];
+    protected $fillable = ['tutor_id', 'student_id', 'rating', 'comment'];
 
     public function tutor()
     {
@@ -25,9 +19,5 @@ class Booking extends Model
     public function student()
     {
         return $this->belongsTo(Student::class);
-    }
-    public function course()
-    {
-        return $this->belongsTo(Course::class);
     }
 }
